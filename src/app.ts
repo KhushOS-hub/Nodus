@@ -18,6 +18,13 @@ app.use(cors({
 
 app.use(express.json({ limit: "16kb" }))
 
+//api endpoints
+import postFolder from "./routes/folder.routes.js"
+import getFolder from "./routes/folder.routes.js"
+
+app.use("/api",postFolder)
+app.use("/api",getFolder)
+
 //HealthCheck
 app.get("/", (req: Request, res: Response) => {
     res.status(200).json({
