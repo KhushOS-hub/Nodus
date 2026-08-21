@@ -18,12 +18,23 @@ app.use(cors({
 
 app.use(express.json({ limit: "16kb" }))
 
-//api endpoints
-import postFolder from "./routes/folder.routes.js"
-import getFolder from "./routes/folder.routes.js"
+//api endpoints for folders
+import postFolderRoute from "./routes/folder.routes.js"
+import getFolderRoute from "./routes/folder.routes.js"
 
-app.use("/api",postFolder)
-app.use("/api",getFolder)
+app.use("/api",postFolderRoute)
+app.use("/api",getFolderRoute)
+
+//api endpoints for files
+import postFilesRoute from './routes/file.routes.js'
+import deleteFileRoute from './routes/file.routes.js'
+import updateFileRoute from './routes/file.routes.js'
+import getFilesRoute from "./routes/file.routes.js"
+
+app.use("/api",postFilesRoute)
+app.use("/api",deleteFileRoute)
+app.use("/api",updateFileRoute)
+app.use("/api",getFilesRoute)
 
 //HealthCheck
 app.get("/", (req: Request, res: Response) => {
