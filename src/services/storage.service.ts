@@ -1,9 +1,10 @@
+import { createReadStream, createWriteStream } from "node:fs"
 import { mkdir, access, unlink, stat, readFile, writeFile } from "node:fs/promises"
 
 // createDirectory(), fileExists(), deleteFile(), getFileStats()
 
 export async function ensureDirectory(path: string) {
-    
+
     await mkdir(path, { recursive: true })
     return path
 
@@ -39,7 +40,7 @@ export async function fileInfo(path: string) {
 
 // file i/o txt
 
-export async function readSmallFile(path:string) {
+export async function readSmallFile(path: string) {
     const MAX_SMALL_FILE_SIZE = 10 * 1024 * 1024
     try {
         const info = await stat(path)
@@ -52,10 +53,10 @@ export async function readSmallFile(path:string) {
     }
 }
 
-export async function writeSmallFile(path:string, data:string) {
+export async function writeSmallFile(path: string, data: string) {
     const MAX_SMALL_FILE_SIZE = 10 * 1024 * 1024
     try {
-    
+
         const size = Buffer.byteLength(data, "utf8")
         if (size > MAX_SMALL_FILE_SIZE) {
             throw new Error("File size exceeded 10MB")
@@ -65,4 +66,14 @@ export async function writeSmallFile(path:string, data:string) {
     } catch (error) {
         return false
     }
+}
+
+// stream larger data
+
+export function streamReadFile(path: string) {
+        return createReadStream(path)
+}
+
+export function streamWriteFile(path: string) {
+        return createWriteStream(path)
 }
