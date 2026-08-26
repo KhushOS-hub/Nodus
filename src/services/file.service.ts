@@ -37,4 +37,5 @@ export const getFile = async (id: number) => {
         .select()
         .from(filesTable)
         .where(eq(filesTable.id, id))
+        .get()
 }

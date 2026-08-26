@@ -1,5 +1,12 @@
-import { getFilesController, deleteFileController, createFileController, updateFileController } from "../controllers/file.controller.js";
+import {
+    getFilesController,
+    deleteFileController,
+    createFileController,
+    updateFileController,
+    downloadFileController
+} from "../controllers/file.controller.js";
 import { Router } from "express";
+import { upload } from "../middleware/upload.middleware.js";
 
 const router = Router()
 
@@ -7,5 +14,8 @@ router.route("/file").post(createFileController)
 router.route("/file/update/:id").put(updateFileController)
 router.route("/files/delete/:id").delete(deleteFileController)
 router.route("/files").get(getFilesController)
+
+router.route("/file/:id/download").get(downloadFileController)
+router.route("/file/test").post(upload, createFileController)
 
 export default router

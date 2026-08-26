@@ -6,7 +6,7 @@ configDotenv({ path: "./.env" })
 
 const app = express()
 
-app.use(express.urlencoded({ extended: true, limit: "16kb" }))
+//app.use(express.urlencoded({ extended: true, limit: "16kb" }))
 
 //Cors Configuration
 app.use(cors({
@@ -30,11 +30,13 @@ import postFilesRoute from './routes/file.routes.js'
 import deleteFileRoute from './routes/file.routes.js'
 import updateFileRoute from './routes/file.routes.js'
 import getFilesRoute from "./routes/file.routes.js"
+import uploadFilesRoute from './routes/file.routes.js'
 
 app.use("/api",postFilesRoute)
 app.use("/api",deleteFileRoute)
 app.use("/api",updateFileRoute)
 app.use("/api",getFilesRoute)
+app.use("/api",uploadFilesRoute)
 
 //HealthCheck
 app.get("/", (req: Request, res: Response) => {
