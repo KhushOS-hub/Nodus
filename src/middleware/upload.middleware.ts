@@ -9,7 +9,7 @@ export const upload = (
     next: NextFunction
 ) => {
     const writeStream = streamWriteFile(
-        "./storage/test-upload.bin"
+        "./storage/test-bun-upload.bin"
     );
 
     req.pipe(writeStream);

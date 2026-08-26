@@ -1,8 +1,6 @@
 import express from "express";
 import cors from "cors";
 import type { Request, Response } from "express";
-import { configDotenv } from "dotenv"
-configDotenv({ path: "./.env" })
 
 const app = express()
 

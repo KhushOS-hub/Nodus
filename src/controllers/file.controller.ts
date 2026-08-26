@@ -25,11 +25,12 @@ export async function createFileController(
         }
 
         const fileData = {
-            originalName: "source.bin",
-            storedName: "test-upload.bin",
+
+            originalName: "bun-test.bin",
+            storedName: "bun-test-upload.bin",
             mimeType: req.headers["content-type"] || "application/octet-stream",
             size: info.size,
-            path,
+            path: "./storage/test-bun-upload.bin",
             folderId: 1
         };
 
