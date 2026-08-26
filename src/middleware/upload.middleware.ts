@@ -1,6 +1,5 @@
 import type { Request, Response, NextFunction } from "express"
 import { streamWriteFile } from "../services/storage.service.js"
-import { ApiError } from "../utils/error.utils.js"
 import { ApiResponse } from "../utils/response.utils.js"
 
 export const upload = (
@@ -8,9 +7,21 @@ export const upload = (
     res: Response,
     next: NextFunction
 ) => {
-    const writeStream = streamWriteFile(
-        "./storage/test-bun-upload.bin"
-    );
+
+    const storedName = req.headers["x-stored-name"];
+
+    if (!storedName || typeof storedName !== "string") {
+        return res.status(400).json(
+            new ApiResponse(
+                400,
+                null,
+                "X-Stored-Name header is required",
+                false
+            )
+        );
+    }
+    const path = `./storage/${storedName}`
+    const writeStream = streamWriteFile(path)
 
     req.pipe(writeStream);
 

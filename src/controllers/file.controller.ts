@@ -9,9 +9,38 @@ export async function createFileController(
     res: Response
 ) {
     try {
-        const path = "./storage/test-upload.bin";
+        const originalName = req.headers["x-filename"]
+        const storedName = req.headers["x-stored-name"]
+        const folderId = Number(req.headers["x-folder-id"])
 
-        const info = await fileInfo(path);
+        if (
+            typeof originalName !== "string" ||
+            typeof storedName !== "string"
+        ) {
+            return res.status(400).json(
+                new ApiResponse(
+                    400,
+                    null,
+                    "Filename and stored filename are required",
+                    false
+                )
+            )
+        }
+
+        if (!Number.isInteger(folderId)) {
+            return res.status(400).json(
+                new ApiResponse(
+                    400,
+                    null,
+                    "Valid folder ID is required",
+                    false
+                )
+            )
+        }
+
+        const path = `./storage/${storedName}`
+
+        const info = await fileInfo(path)
 
         if (!info) {
             return res.status(500).json(
@@ -21,20 +50,21 @@ export async function createFileController(
                     "Uploaded file could not be found",
                     false
                 )
-            );
+            )
         }
 
         const fileData = {
-
-            originalName: "bun-test.bin",
-            storedName: "bun-test-upload.bin",
-            mimeType: req.headers["content-type"] || "application/octet-stream",
+            originalName,
+            storedName,
+            mimeType:
+                req.headers["content-type"] ||
+                "application/octet-stream",
             size: info.size,
-            path: "./storage/test-bun-upload.bin",
-            folderId: 1
+            path,
+            folderId
         };
 
-        const file = await createFile(fileData);
+        const file = await createFile(fileData)
 
         return res.status(201).json(
             new ApiResponse(
@@ -43,7 +73,7 @@ export async function createFileController(
                 "File uploaded successfully",
                 true
             )
-        );
+        )
 
     } catch (error) {
         console.error("Create file error:", error);
@@ -55,7 +85,7 @@ export async function createFileController(
                 "Failed to create file",
                 false
             )
-        );
+        )
     }
 }
 
