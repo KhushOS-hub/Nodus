@@ -1,4 +1,5 @@
-import { input } from "@inquirer/prompts"
+import { select, input } from "@inquirer/prompts";
+import { getFolders, createFolder } from "../api/folder"
 
 export async function askForFile() {
     const file = await input({
@@ -13,13 +14,38 @@ export async function askForFile() {
     return file
 }
 export async function askForFolder() {
-    return await input({
-        message: "To which folder:",
-        validate(value) {
-            if (!value.trim()) {
-                return "Folder is required"
-            }
-            return true
-        }
-    })
+    const folders = await getFolders()
+
+    console.log("FOLDERS:", folders);
+
+    const choices = folders.map((folder) => ({
+        name: folder.name,
+        value: folder,
+    }));
+
+    choices.push({
+        name: "+ Create new folder",
+        value: "create",
+    });
+
+    const selected = await select({
+        message: "To which folder?",
+        choices,
+    });
+
+    if (selected === "create") {
+        const name = await input({
+            message: "New folder name:",
+        })
+
+        const folder = await createFolder(name)
+        console.log(folder)
+        
+
+        return folder;
+    }
+    console.log(selected);
+    
+
+    return selected;
 }

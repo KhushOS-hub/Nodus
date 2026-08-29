@@ -4,39 +4,32 @@ import { inspectFile } from "../utils/file.js"
 
 export const uploadCommand = new Command("upload")
     .description("Upload a file")
-    .argument('[file]', "file to upload")
-    .argument('[folder]')
-    .action(async (file, folder) => {
+    .argument("[file]", "file to upload")
+    .action(async (file) => {
 
         if (!file) {
             file = await askForFile()
         }
 
-        if (!folder) {
-            folder = await askForFolder()
-        }
-
-        console.log("File:", file)
-        console.log("Folder:", folder)
-
         try {
             const metadata = await inspectFile(file)
+            const folder = await askForFolder()
 
-            console.log("File Information")
+            console.log("\nFile Information")
             console.log("Name:", metadata.originalName)
             console.log("Size:", metadata.size, "bytes")
             console.log("MIME:", metadata.mimeType)
-            console.log("Folder:", folder)
+            console.log("Folder:", folder.name)
+            console.log("Folder ID:", Number(folder.id))
 
         } catch (error) {
             console.error(
                 "✗",
                 error instanceof Error
                     ? error.message
-                    : "Failed to inspect file"
+                    : "Failed to upload file"
             )
 
             process.exitCode = 1
         }
     })
-
