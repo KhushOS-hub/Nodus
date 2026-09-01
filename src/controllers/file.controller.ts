@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import { ApiResponse } from "../utils/response.utils.js";
 import { createFile, updateFile, deleteFile, getFile, getFiles } from "../services/file.service.js";
-import { fileInfo, streamReadFile } from "../services/storage.service.js";
+import { fileInfo, streamReadFile } from "../services/filestorage.service.js";
 import { ApiError } from "../utils/error.utils.js";
 
 export async function createFileController(

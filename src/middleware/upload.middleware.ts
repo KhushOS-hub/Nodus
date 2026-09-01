@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express"
-import { streamWriteFile } from "../services/storage.service.js"
+import { streamWriteFile } from "../services/filestorage.service.js"
 import { ApiResponse } from "../utils/response.utils.js"
 
 export const upload = (

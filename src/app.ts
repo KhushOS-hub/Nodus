@@ -19,9 +19,11 @@ app.use(express.json({ limit: "16kb" }))
 //api endpoints for folders
 import postFolderRoute from "./routes/folder.routes.js"
 import getFolderRoute from "./routes/folder.routes.js"
+import getFoldersRoute from "./routes/folder.routes.js"
 
 app.use("/api",postFolderRoute)
 app.use("/api",getFolderRoute)
+app.use("api",getFoldersRoute)
 
 //api endpoints for files
 import postFilesRoute from './routes/file.routes.js'
