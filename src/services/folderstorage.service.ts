@@ -1,8 +1,9 @@
 //This file is responsibe for physical folder creation
 
 import path from "node:path";
-import { mkdir } from "node:fs/promises"
+import { mkdir, rm } from "node:fs/promises"
 import { createFolder, getFolderById } from "./folder.service.js"
+import { ApiError } from "../utils/error.utils.js";
 
 const STORAGE_ROOT = "./storage/homevault";
 
@@ -17,12 +18,12 @@ async function resolveFolderPath(parentId: number | null) {
         const result = await getFolderById(currentId)
 
         if (result.length === 0) {
-            throw new Error(`Parent folder ${currentId} not found`)
+            throw new ApiError(404,`Parent folder ${currentId} not found`)
         }
 
         const folder = result[0]
 
-        if(!folder) throw new Error(`Folder ${currentId} not found`)
+        if (!folder) throw new ApiError(404,`Folder ${currentId} not found`)
 
         folders.unshift(folder.name)
 
@@ -32,18 +33,37 @@ async function resolveFolderPath(parentId: number | null) {
     return path.join(STORAGE_ROOT, ...folders)
 }
 
+export function validateFolderName(name: string) {
+    if (!name.trim()) {
+        throw new ApiError(400, "Folder name cannot be empty")
+    }
+
+    if (name === "." || name === "..") {
+        throw new ApiError(400, "Invalid folder name")
+    }
+
+    if (name.includes("/") || name.includes("\\")) {
+        throw new ApiError(400, "Folder name cannot contain path separators")
+    }
+
+    return name.trim();
+}
+
 export async function createFolderService(name: string, parentId: number | null) {
 
-    // 3. Resolve physical path
+    const safeName = validateFolderName(name)
+    // Resolve physical path
     const parentPath = await resolveFolderPath(parentId)
-    const folderPath = path.join(parentPath, name)
+    const folderPath = path.join(parentPath, safeName)
 
-    // 4. Create directory
-    await mkdir(folderPath, { recursive: true })
-    // 5. Insert DB record
-    const folder = await createFolder(name, parentId)
+    // Create directory
+    await mkdir(folderPath)
+    try {
+        return await createFolder(safeName, parentId)
+    } catch (error) {
+        await rm(folderPath, { recursive: true, force: true })
+        throw error
+    }
 
-    // 6. Return folder
-    return folder
 }
 
