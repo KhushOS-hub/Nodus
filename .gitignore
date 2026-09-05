@@ -1,4 +1,6 @@
 .env
 node_modules/
-local.db
+nodus.db
 storage/*.bin
+prd.md
+.DS_Store

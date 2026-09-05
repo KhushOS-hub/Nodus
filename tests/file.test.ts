@@ -5,7 +5,7 @@ import {
     deleteFile,
     readSmallFile,
     writeSmallFile
-} from "../src/services/filestorage.service.js";
+} from "../server/services/filestorage.service.js";
 
 const testDir = "./storage/test";
 const testFile = `${testDir}/hello.txt`;

@@ -7,7 +7,9 @@
   "scripts": {
     "dev": "bun --watch src/index.ts",
     "start": "bun src/index.ts",
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "db:generate": "bun --env-file=.env x drizzle-kit generate",
+    "db:migrate": "bun --env-file=.env x drizzle-kit migrate"
   },
   "keywords": [
     "file-server",
