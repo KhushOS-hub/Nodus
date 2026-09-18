@@ -1,3 +1,4 @@
+//Contains Only DataBase Operation i.e Logical Files
 import { db } from "../index.js";
 import { filesTable } from "../db/schema.js";
 import { eq } from "drizzle-orm";

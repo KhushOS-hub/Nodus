@@ -1,3 +1,4 @@
+//This File is for the db operation i.e logical operations
 import { db } from "../index.js";
 import { foldersTable } from "../db/schema.js";
 import { eq } from "drizzle-orm";
@@ -31,5 +32,3 @@ export async function getFolder(name: string) {
         .from(foldersTable)
         .where(eq(foldersTable.name, name))
 }
-
-//This File is for the db operation i.e logical operations

@@ -38,6 +38,13 @@ app.use("/api",updateFileRoute)
 app.use("/api",getFilesRoute)
 app.use("/api",uploadFilesRoute)
 
+//api endpoint for authentication
+import sendCode from './auth/auth.route.js'
+import authenticate from './auth/auth.route.js'
+
+app.use("/api", sendCode)
+app.use("/api",authenticate)
+
 //HealthCheck
 app.get("/", (req: Request, res: Response) => {
     res.status(200).json({

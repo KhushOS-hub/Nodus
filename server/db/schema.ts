@@ -1,3 +1,4 @@
+import { timestamp } from "drizzle-orm/cockroach-core";
 import { int, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
 
 export const foldersTable = sqliteTable("folders", {
@@ -25,4 +26,15 @@ export const filesTable = sqliteTable("files", {
         .notNull().$defaultFn(() => new Date()),
     updatedAt: int({ mode: "timestamp" })
         .notNull().$defaultFn(() => new Date())
+})
+
+// auth schema
+export const authTable = sqliteTable("auth", {
+    id: int().primaryKey({ autoIncrement: true }),
+    code: text().notNull(),
+    expiresAt: int({ mode: "timestamp" }).notNull(),
+    tokenHash: text(),
+    createdAt: int({ mode: "timestamp" })
+        .notNull()
+        .$defaultFn(() => new Date())
 })
