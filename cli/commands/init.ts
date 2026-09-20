@@ -3,6 +3,7 @@
 import { Command } from "commander"
 import { pairCode, serverURL } from "../prompt/init"
 import { authVerificationCli } from "../api/auth.cli"
+import { saveToken } from "../auth/token.storage"
 
 export const init = new Command("init")
     .description("Initialize and pair your server")
@@ -11,6 +12,9 @@ export const init = new Command("init")
         const code = await pairCode()
         const result = await authVerificationCli(url, code)
 
-        
+        if (result.success && result.accessToken) {
+            await saveToken(result.accessToken)
+        }
+
         console.log(result.message)
     })

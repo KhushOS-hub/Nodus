@@ -14,12 +14,22 @@ async function authVerificationCli(url: string, code: string) {
             })
         })
 
+        const data = await response.json() as { token?: string }
+
         if (response.ok) {
+            if (!data.token) {
+                return {
+                    success: false,
+                    message: pc.redBright("Authentication response did not contain a token"),
+                }
+            }
             return {
                 success: true,
                 message: `${pc.greenBright("Connected")}`,
+                accessToken: data.token
             }
         }
+
 
         if (response.status === 401) {
             return {
@@ -41,4 +51,4 @@ async function authVerificationCli(url: string, code: string) {
     }
 }
 
-export {authVerificationCli}
+export { authVerificationCli }

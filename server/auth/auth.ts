@@ -34,7 +34,3 @@ export async function hashToken(token:string) {
 
     return hasher.digest("hex")
 }
-
-
-
-
