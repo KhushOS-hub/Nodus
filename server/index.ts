@@ -1,5 +1,5 @@
 import app from './app.js';
-import { drizzle } from 'drizzle-orm/libsql'
+import { drizzle } from "drizzle-orm/better-sqlite3"
 
 const port = parseInt(process.env.PORT ?? "8000", 10)
 export const db = drizzle(process.env.DB_FILE_NAME!)

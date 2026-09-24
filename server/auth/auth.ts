@@ -1,13 +1,14 @@
 import { authTable } from "../db/schema.js"
 import { db } from "../index.js"
 import { lt } from "drizzle-orm"
+import crypto from 'node:crypto'
 
 export async function deletePairingCodes() {
     await db.delete(authTable).where(lt(authTable.expiresAt, new Date()))
 }
 
 export async function pairingCode() {
-    
+
     await deletePairingCodes()
 
     const code = Math.floor(1000 + Math.random() * 9000)
@@ -20,17 +21,11 @@ export async function pairingCode() {
 }
 
 export async function generateToken() {
-    const bytes = new Uint8Array(32)
-
-    crypto.getRandomValues(bytes)
-
-    return Buffer.from(bytes).toString("hex")
+    const rawToken = crypto.randomBytes(32).toString('hex')
+    return rawToken
 }
 
-export async function hashToken(token:string) {
-    const hasher = new Bun.CryptoHasher("sha256");
-
-    hasher.update(token)
-
-    return hasher.digest("hex")
+export async function hashToken(token: string) {
+    const hasher = crypto.createHash('sha256').update(token).digest('hex')
+    return hasher
 }

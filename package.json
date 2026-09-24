@@ -5,11 +5,11 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "bun --watch server/index.ts",
-    "start": "bun server/index.ts",
+    "dev": "tsx watch server/index.ts",
+    "start": "tsx server/index.ts",
     "check": "tsc --noEmit",
-    "db:generate": "bun --env-file=.env x drizzle-kit generate",
-    "db:migrate": "bun --env-file=.env x drizzle-kit migrate"
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate"
   },
   "keywords": [
     "file-server",
@@ -21,18 +21,22 @@
   "author": "Khush",
   "license": "ISC",
   "devDependencies": {
+    "@types/better-sqlite3": "^9.6.0",
     "@types/bun": "^1.4.2",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^26.2.0",
     "drizzle-kit": "^1.0.0-rc.4",
+    "tsx": "^4.23.15",
     "typescript": "^7.0.2"
   },
   "dependencies": {
     "@libsql/client": "^0.17.4",
+    "better-sqlite3": "^13.0.3",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "drizzle-orm": "^1.0.0-rc.4",
     "express": "^5.2.1"
-  }
+  },
+  "allowScripts": {}
 }
