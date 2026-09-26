@@ -5,7 +5,8 @@ import { mkdir, rm } from "node:fs/promises"
 import { createFolder, getFolderById } from "./folder.service.js"
 import { ApiError } from "../utils/error.utils.js";
 
-const STORAGE_ROOT = "./storage/homevault";
+const STORAGE_ROOT = path.resolve("./storage/nodus")
+await mkdir(STORAGE_ROOT, { recursive: true })
 
 async function resolveFolderPath(parentId: number | null) {
 
@@ -18,12 +19,12 @@ async function resolveFolderPath(parentId: number | null) {
         const result = await getFolderById(currentId)
 
         if (result.length === 0) {
-            throw new ApiError(404,`Parent folder ${currentId} not found`)
+            throw new ApiError(404, `Parent folder ${currentId} not found`)
         }
 
         const folder = result[0]
 
-        if (!folder) throw new ApiError(404,`Folder ${currentId} not found`)
+        if (!folder) throw new ApiError(404, `Folder ${currentId} not found`)
 
         folders.unshift(folder.name)
 

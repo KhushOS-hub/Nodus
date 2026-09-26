@@ -1,4 +1,3 @@
-import { timestamp } from "drizzle-orm/cockroach-core";
 import { int, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
 
 export const foldersTable = sqliteTable("folders", {

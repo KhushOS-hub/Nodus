@@ -1,8 +1,8 @@
 import type { Request, Response } from "express";
-import { createFolder, getFolder, getFolders } from "../services/folder.service.js";
+import { getFolder, getFolders } from "../services/folder.service.js";
 import { ApiResponse } from "../utils/response.utils.js";
 import { ApiError } from "../utils/error.utils.js";
-import { createFolderService, validateFolderName } from "../services/folderstorage.service.js";
+import { createFolderService } from "../services/folderstorage.service.js";
 
 export async function createFolderController(req: Request, res: Response) {
     try {
@@ -24,6 +24,8 @@ export async function createFolderController(req: Request, res: Response) {
         return res.status(201).json(new ApiResponse(201, folder, "Folder creation success", true))
 
     } catch (error) {
+        console.error("CREATE FOLDER ERROR:", error)
+
         if (error instanceof ApiError) {
             return res
                 .status(error.statusCode)
@@ -34,7 +36,7 @@ export async function createFolderController(req: Request, res: Response) {
                         error.message,
                         false
                     )
-                )
+                );
         }
 
         return res
