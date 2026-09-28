@@ -5,12 +5,12 @@ import os from "node:os"
 const NODUS_DIR = path.join(os.homedir(), ".config", "nodus")
 const CREDENTIALS_FILE = path.join(NODUS_DIR, "credentials.json")
 
-async function saveToken(accessToken: string) {
+async function saveToken(accessToken: string, serverURL: string) {
     await mkdir(NODUS_DIR, { recursive: true })
 
     await writeFile(
         CREDENTIALS_FILE,
-        JSON.stringify({ accessToken }, null, 2),
+        JSON.stringify({ accessToken, serverUrl: serverURL }, null, 2),
         {
             encoding: "utf-8",
             mode: 0o600

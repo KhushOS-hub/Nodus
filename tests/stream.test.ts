@@ -1,7 +1,7 @@
 import {
     streamReadFile,
     streamWriteFile
-} from "../src/services/filestorage.service.js"
+} from "../server/services/filestorage.service.js"
 
 const sourcePath = "./storage/source.bin"
 const destinationPath = "./storage/copy.bin"

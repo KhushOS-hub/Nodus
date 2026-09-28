@@ -26,10 +26,11 @@ async function authVerificationCli(url: string, code: string) {
             return {
                 success: true,
                 message: `${pc.greenBright("Connected")}`,
+                serverUrl: url,
                 accessToken: data.token
+
             }
         }
-
 
         if (response.status === 401) {
             return {

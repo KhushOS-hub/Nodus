@@ -9,7 +9,7 @@
     "homevault": "./src/index.js"
   },
   "scripts": {
-    "dev": "bun --watch src/index.js"
+    "dev": "bun --watch cli/index.js"
   },
   "devDependencies": {
     "@types/bun": "latest"

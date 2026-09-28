@@ -53,16 +53,29 @@ export async function createFolderController(req: Request, res: Response) {
 }
 
 export async function getFoldersController(req: Request, res: Response) {
-    const folders = await getFolders()
-    res
-        .status(201)
-        .json(
-            new ApiResponse(
-                201,
-                folders,
-                "Get request ran successfully",
-                true)
-        )
+    try {
+        const folders = await getFolders()
+        res
+            .status(201)
+            .json(
+                new ApiResponse(
+                    201,
+                    folders,
+                    "Get request ran successfully",
+                    true)
+            )
+    } catch (error) {
+        res
+            .status(500)
+            .json(
+                new ApiResponse(
+                    500,
+                    null,
+                    "Failed to fetch folder",
+                    false
+                )
+            )
+    }
 }
 
 

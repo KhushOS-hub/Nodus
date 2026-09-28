@@ -13,7 +13,7 @@ export const init = new Command("init")
         const result = await authVerificationCli(url, code)
 
         if (result.success && result.accessToken) {
-            await saveToken(result.accessToken)
+            await saveToken(result.accessToken, result.serverUrl)
         }
 
         console.log(result.message)
