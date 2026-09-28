@@ -11,6 +11,7 @@ async function folderCreation() {
             }
             return true
         }
+        
     }))
 
     const folders = await getFolders()
