@@ -32,7 +32,6 @@
     "typescript": "^7.0.2"
   },
   "dependencies": {
-    "@libsql/client": "^0.17.4",
     "better-sqlite3": "^13.0.3",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
