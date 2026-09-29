@@ -1,6 +1,6 @@
 import app from "./app.js"
-import Database from "better-sqlite3"
-import { drizzle } from "drizzle-orm/better-sqlite3"
+import { DatabaseSync } from "node:sqlite"
+import { drizzle } from "drizzle-orm/node-sqlite"
 import dotenv from "dotenv"
 
 dotenv.config()
@@ -12,7 +12,7 @@ if (!dbFileName) {
     throw new Error("DB_FILE_NAME is not defined")
 }
 
-const sqlite = new Database(dbFileName)
+const sqlite = new DatabaseSync(dbFileName)
 
 export const db = drizzle({
     client: sqlite,
