@@ -71,9 +71,80 @@ export async function writeSmallFile(path: string, data: string) {
 // stream larger data
 
 export function streamReadFile(path: string) {
-        return createReadStream(path)
+    return createReadStream(path)
 }
 
 export function streamWriteFile(path: string) {
-        return createWriteStream(path)
+    return createWriteStream(path)
+}
+
+// For file upload from cli to backend i.e Phone
+import fs from "node:fs"
+import path from "node:path"
+import { pipeline } from "node:stream/promises"
+import { createFile } from "./file.service"
+import { eq } from "drizzle-orm"
+import { db } from "../index"
+import { foldersTable } from "../db/schema"
+
+export async function getFolderNameById(folderId: number) {
+    const folder = await db
+        .select({
+            name: foldersTable.name
+        })
+        .from(foldersTable)
+        .where(eq(foldersTable.id, folderId))
+        .limit(1);
+
+    return folder[0]?.name ?? null
+}
+
+export async function uploadFileService({
+    originalName,
+    folderId,
+    mimeType,
+    stream
+}: {
+    originalName: string
+    folderId: number
+    mimeType: string
+    stream: NodeJS.ReadableStream
+}) {
+    const safeName = path.basename(originalName)
+
+    const name = await getFolderNameById(folderId)
+    if (!name) {
+        throw new Error("Folder not found")
+    }
+
+    const folderPath = path.resolve(
+        `./storage/nodus/${name}`
+    );
+
+    await fs.promises.mkdir(folderPath, {
+        recursive: true
+    });
+
+    const filePath = path.join(
+        folderPath,
+        safeName
+    );
+
+    await pipeline(
+        stream,
+        fs.createWriteStream(filePath)
+    );
+
+    const stat = await fs.promises.stat(filePath);
+
+    const file = await createFile({
+        originalName,
+        storedName: safeName,
+        mimeType,
+        size: stat.size,
+        path: filePath,
+        folderId
+    });
+
+    return file;
 }

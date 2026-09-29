@@ -1,30 +1,27 @@
 import type { Request, Response } from "express";
 import { ApiResponse } from "../utils/response.utils.js";
-import { createFile, updateFile, deleteFile, getFile, getFiles } from "../services/file.service.js";
-import { fileInfo, streamReadFile } from "../services/filestorage.service.js";
+import { updateFile, deleteFile, getFile, getFiles } from "../services/file.service.js";
+import { streamReadFile } from "../services/filestorage.service.js";
 import { ApiError } from "../utils/error.utils.js";
+import { uploadFileService } from "../services/filestorage.service.js";
 
-export async function createFileController(
+export async function uploadFileController(
     req: Request,
     res: Response
 ) {
     try {
-        const originalName = req.headers["x-filename"]
-        const storedName = req.headers["x-stored-name"]
-        const folderId = Number(req.headers["x-folder-id"])
+        const originalName = req.headers["x-filename"];
+        const folderId = Number(req.headers["x-folder-id"]);
 
-        if (
-            typeof originalName !== "string" ||
-            typeof storedName !== "string"
-        ) {
+        if (typeof originalName !== "string") {
             return res.status(400).json(
                 new ApiResponse(
                     400,
                     null,
-                    "Filename and stored filename are required",
+                    "Filename is required",
                     false
                 )
-            )
+            );
         }
 
         if (!Number.isInteger(folderId)) {
@@ -35,36 +32,17 @@ export async function createFileController(
                     "Valid folder ID is required",
                     false
                 )
-            )
+            );
         }
 
-        const path = `./storage/${storedName}`
-
-        const info = await fileInfo(path)
-
-        if (!info) {
-            return res.status(500).json(
-                new ApiResponse(
-                    500,
-                    null,
-                    "Uploaded file could not be found",
-                    false
-                )
-            )
-        }
-
-        const fileData = {
+        const file = await uploadFileService({
             originalName,
-            storedName,
+            folderId,
             mimeType:
                 req.headers["content-type"] ||
                 "application/octet-stream",
-            size: info.size,
-            path,
-            folderId
-        };
-
-        const file = await createFile(fileData)
+            stream: req
+        });
 
         return res.status(201).json(
             new ApiResponse(
@@ -73,19 +51,19 @@ export async function createFileController(
                 "File uploaded successfully",
                 true
             )
-        )
+        );
 
     } catch (error) {
-        console.error("Create file error:", error);
+        console.error("Upload file error:", error);
 
         return res.status(500).json(
             new ApiResponse(
                 500,
                 null,
-                "Failed to create file",
+                "Failed to upload file",
                 false
             )
-        )
+        );
     }
 }
 

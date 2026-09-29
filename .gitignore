@@ -4,3 +4,4 @@ nodus.db
 storage/*.bin
 prd.md
 .DS_Store
+storage
