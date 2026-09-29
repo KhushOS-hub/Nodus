@@ -51,6 +51,6 @@ app.get("/", (req: Request, res: Response) => {
         success: true,
         message: "Home Cloud API is running"
     });
-});
+})
 
 export default app

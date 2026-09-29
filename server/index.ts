@@ -1,23 +1,36 @@
-import app from "./app.js";
-import Database from "better-sqlite3";
-import { drizzle } from "drizzle-orm/better-sqlite3";
-import dotenv from "dotenv";
+import app from "./app.js"
+import Database from "better-sqlite3"
+import { drizzle } from "drizzle-orm/better-sqlite3"
+import dotenv from "dotenv"
 
-dotenv.config();
+dotenv.config()
 
-const port = parseInt(process.env.PORT ?? "8000", 10);
-const dbFileName = process.env.DB_FILE_NAME;
+const port = parseInt(process.env.PORT ?? "8000", 10)
+const dbFileName = process.env.DB_FILE_NAME
 
 if (!dbFileName) {
-    throw new Error("DB_FILE_NAME is not defined");
+    throw new Error("DB_FILE_NAME is not defined")
 }
 
-const sqlite = new Database(dbFileName);
+const sqlite = new Database(dbFileName)
 
 export const db = drizzle({
     client: sqlite,
-});
+})
 
-app.listen(port, () => {
-    console.log(`Server is running on port http://localhost:${port}`);
-});
+//Termux Interface for pairing to the cli
+
+import { getLocalIp } from "./auth/ip.js"
+import { pairingCode } from "./auth/auth.js"
+
+const host = getLocalIp()
+const pair = await pairingCode()
+app.listen(port, "0.0.0.0", () => {
+    console.log(`
+Nodus Server
+────────────
+Local:   http://localhost:${port}
+Network: http://${host}:${port}
+Pair code: ${pair}
+`)
+})
