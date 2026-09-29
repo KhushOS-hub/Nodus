@@ -1,6 +1,8 @@
 import { Command } from "commander"
 import {init} from "./init"
 import { mkdir } from "./folders"
+import fileCommand from "./file"
+
 const program = new Command()
 
 program
@@ -10,5 +12,6 @@ program
 
 program.addCommand(init)
 program.addCommand(mkdir)
+program.addCommand(fileCommand)
 
 export default program
