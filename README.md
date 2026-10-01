@@ -1,24 +1,46 @@
 ## To Run Nodus:
 1. Install Termux from playstore
 ## On Termux run commands
-1. termux-setup-storage -> Configures storage access on android
-2. pkg update && pkg upgrade && pkg install git nodejs
-3. git clone https://github.com/KhushOS-hub/Nodus.git nodus
-4. cd nodus
-5. db:migrate
-6. npm run dev
+ ```bash
+ termux-setup-storage
+``` 
+ ```bash
+ pkg update && pkg upgrade && pkg install git nodejs
+ ```
+ ```
+ bash git clone https://github.com/KhushOS-hub/Nodus.git nodus
+```
+ ```bash
+   cd nodus
+   db:migrate
+   npm run dev
+   ```
 7. Copy the Network and Pair Code
 
 ## On Computer 
-1. clone to the repo: git clone https://github.com/KhushOS-hub/Nodus.git
-2. cd cli
-3. bun install
-4. bun run index.ts init
-   paste the network and pair code
-5.bun run index.ts mkdir -> Creates Folder
-6.bun run index.ts file upload -> Uploads the file to the android
+Run:
+
+```bash
+git clone --filter=blob:none --no-checkout https://github.com/KhushOS-hub/Nodus.git && cd Nodus && git sparse-checkout init --cone && git sparse-checkout set cli && git checkout
+```
+## initialise cli
+```bash
+ cd cli
+ bun install
+ bun run index.ts init
+```
+Paste the network and pair code
+## Operations on cli
+```bash
+ bun run index.ts mkdir 
+```
+```bash
+bun run index.ts file upload
+``` 
 
 ## File path on android
-1.open file manager
-2.search Nodus, inside it every folder and file will be present.
+1. open file manager
+2. search Nodus, inside it every folder and file will be present.
+--
+   Happy Coding :>>
 
