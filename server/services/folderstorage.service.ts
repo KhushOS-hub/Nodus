@@ -5,7 +5,12 @@ import { mkdir, rm } from "node:fs/promises"
 import { createFolder, getFolderById } from "./folder.service.js"
 import { ApiError } from "../utils/error.utils.js";
 
-const STORAGE_ROOT = path.resolve("./storage/nodus")
+
+const STORAGE_ROOT = path.resolve(
+    process.env.HOME!,
+    "storage/shared/Nodus"
+)
+
 await mkdir(STORAGE_ROOT, { recursive: true })
 
 async function resolveFolderPath(parentId: number | null) {

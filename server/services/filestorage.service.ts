@@ -117,9 +117,12 @@ export async function uploadFileService({
         throw new Error("Folder not found")
     }
 
-    const folderPath = path.resolve(
-        `./storage/nodus/${name}`
-    );
+    const folderPath =
+        path.join(
+            process.env.HOME!,
+            "storage/shared/Nodus",
+            name
+        )
 
     await fs.promises.mkdir(folderPath, {
         recursive: true
