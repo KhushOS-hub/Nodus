@@ -16,8 +16,8 @@ export async function uploadFile(
 
     const originalName = path.basename(absolutePath)
 
-    const fileStream = fs.createReadStream(absolutePath)
-
+    const fileStream = Bun.file(absolutePath).stream()
+    
     const headers: Record<string, string> = {
         "Content-Type": "application/octet-stream",
         "x-filename": originalName
