@@ -7,8 +7,8 @@
  ```bash
  pkg update && pkg upgrade && pkg install git nodejs
  ```
- ```
- bash git clone https://github.com/KhushOS-hub/Nodus.git nodus
+ ```bash
+git clone --no-checkout https://github.com/KhushOS-hub/Nodus.git && cd Nodus && git sparse-checkout init --cone && git sparse-checkout set '/*' '!/cli' && git checkout
 ```
  ```bash
    cd nodus
@@ -41,6 +41,6 @@ bun run index.ts file upload
 ## File path on android
 1. open file manager
 2. search Nodus, inside it every folder and file will be present.
---
-   Happy Coding :>>
+
+Happy Coding :>>
 
