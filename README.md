@@ -8,11 +8,12 @@
  pkg update && pkg upgrade && pkg install git nodejs
  ```
  ```bash
-git clone --no-checkout https://github.com/KhushOS-hub/Nodus.git && cd Nodus && git sparse-checkout init --cone && git sparse-checkout set '/*' '!/cli' && git checkout
+git clone --filter=blob:none --no-checkout https://github.com/KhushOS-hub/Nodus.git && cd Nodus && git sparse-checkout init --no-cone && git sparse-checkout set '/*' '!/cli/**' && git checkout
 ```
  ```bash
-   cd nodus
-   db:migrate
+   cd Nodus
+   npm i
+   npm db:migrate
    npm run dev
    ```
 7. Copy the Network and Pair Code
