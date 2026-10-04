@@ -11,7 +11,6 @@
 git clone --filter=blob:none --no-checkout https://github.com/KhushOS-hub/Nodus.git && cd Nodus && git sparse-checkout init --no-cone && git sparse-checkout set '/*' '!/cli/**' && git checkout
 ```
  ```bash
-   cd Nodus
    npm i
    npm db:migrate
    npm run dev
