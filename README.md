@@ -12,7 +12,7 @@ git clone --filter=blob:none --no-checkout https://github.com/KhushOS-hub/Nodus.
 ```
  ```bash
    npm i
-   npm db:migrate
+   npm run db:migrate
    npm run dev
    ```
 7. Copy the Network and Pair Code
